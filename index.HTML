@@ -3,172 +3,631 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medication Reminder</title>
+    <title>Diseases and Remedies</title>
     <style>
-        
-        /* General Reset */
-        body {
-            font-family: 'Poppins', sans-serif;
+        /* Modern CSS Reset */
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f9fafc;
-            color: #333;
-            line-height: 1.6;
+            box-sizing: border-box;
         }
 
-        /* Header Styling */
+        /* Variables */
+        :root {
+            --primary-color: #2a9d8f;
+            --secondary-color: #264653;
+            --accent-color: #e76f51;
+            --text-color: #2d3436;
+            --background-color: #f7f9fc;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        /* General Styles */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.8;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        /* Header Styles */
         header {
-            background: linear-gradient(90deg, #4caf50, #009688);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 20px;
+            padding: 3rem 1.5rem;
             text-align: center;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
         }
 
         header h1 {
-            font-size: 2rem;
-            margin: 0;
-            letter-spacing: 1px;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        /* Container Styling */
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Container Styles */
         .container {
-            padding: 40px 20px;
-        }
-
-        /* Form Styling */
-        form {
-            background: white;
+            max-width: 1000px;
+            margin: 40px auto;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            margin: auto;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
         }
 
-        form:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        h2 {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 10px;
         }
 
-        form h2 {
-            margin-bottom: 20px;
-            color: #00796b;
-            text-align: center;
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
         }
 
-        label {
+        /* List Styles */
+        ul {
+            list-style: none;
+            display: grid;
+            gap: 20px;
+        }
+
+        li {
+            padding: 20px;
+            border: none;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .disease {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--accent-color);
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
         }
 
-        input, button {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .remedy {
+            color: var(--text-color);
             font-size: 1rem;
+            opacity: 0.9;
         }
 
-        input:focus {
-            outline: none;
-            border-color: #4caf50;
-            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-        }
-
-        button {
-            background: #4caf50;
+        /* Footer Styles */
+        footer {
+            background: var(--secondary-color);
             color: white;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-
-        button:hover {
-            background: #388e3c;
-            transform: translateY(-2px);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        /* Reminder Message Styling */
-        .reminder-message {
+            padding: 20px 0;
             text-align: center;
-            margin-top: 20px;
-            font-size: 1.2rem;
-            color: #4caf50;
-            font-weight: bold;
+            margin-top: 40px;
         }
 
-        /* Mobile Friendly */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.5rem;
-            }
+        footer p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
 
-            form {
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
                 padding: 20px;
             }
+
+            header {
+                padding: 2rem 1rem;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            li {
+                padding: 15px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            li {
+                break-inside: avoid;
+                box-shadow: none;
+                border-left: 2px solid var(--primary-color);
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 700px;
+            border-radius: 12px;
+            position: relative;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-button {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .close-button:hover {
+            color: var(--accent-color);
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Medication Reminder</h1>
+        <h1>Diseases and Their Remedies</h1>
+        <p>A quick guide to managing common ailments</p>
     </header>
     <div class="container">
-        <form id="medication-form">
-            <h2>Set a Reminder</h2>
-            <label for="medication-name">Medication Name:</label>
-            <input type="text" id="medication-name" placeholder="Enter medication name" required>
-
-            <label for="dose">Dosage:</label>
-            <input type="text" id="dose" placeholder="e.g., 1 tablet, 5 ml" required>
-
-            <label for="time">Time of Day:</label>
-            <input type="time" id="time" required>
-
-            <button type="submit">Set Reminder</button>
-        </form>
-        <div id="reminder-display" class="reminder-message" style="display: none;"></div>
+        <h2>Common Diseases</h2>
+        <ul>
+            <li>
+                <span class="disease" onclick="toggleModal('cold-flu-modal')" style="cursor: pointer;">Cold and Flu</span>
+                <p class="remedy">
+                    • Stay hydrated and drink warm fluids like herbal teas.<br>
+                    • Rest adequately to allow your body to recover.<br>
+                    • Use saline nasal sprays to relieve nasal congestion.<br>
+                    • Inhale steam with eucalyptus oil for sinus relief.
+                </p>
+            </li>
+            <li>
+                <span class="disease" onclick="toggleModal('headache-modal')" style="cursor: pointer;">Headache</span>
+                <p class="remedy">
+                    • Stay hydrated, take breaks from screens, and practice relaxation techniques.<br>
+                    • Apply cold or warm compresses depending on the type of headache.<br>
+                    • Use over-the-counter medications if necessary, but sparingly.
+                </p>
+            </li>
+            <li>
+                <span class="disease" onclick="toggleModal('acidity-modal')" style="cursor: pointer;">Acidity</span>
+                <p class="remedy">
+                    • Avoid spicy and oily foods.<br>
+                    • Eat smaller, more frequent meals.<br>
+                    • Drink a glass of warm water with honey after meals.
+                </p>
+            </li>
+            <li>
+                <span class="disease" onclick="toggleModal('diabetes-modal')" style="cursor: pointer;">Diabetes</span>
+                <p class="remedy">
+                    • Follow a low-carb, high-fiber diet.<br>
+                    • Exercise regularly to maintain healthy blood sugar levels.<br>
+                    • Monitor blood sugar and take prescribed medications.
+                </p>
+            </li>
+            <li>
+                <span class="disease" onclick="toggleModal('hypertension-modal')" style="cursor: pointer;">Hypertension</span>
+                <p class="remedy">
+                    • Reduce salt intake and maintain a balanced diet.<br>
+                    • Manage stress with meditation or yoga.<br>
+                    • Take prescribed medications as directed by a doctor.
+                </p>
+            </li>
+            <li>
+                <span class="disease" onclick="toggleModal('constipation-modal')" style="cursor: pointer;">Constipation</span>
+                <p class="remedy">
+                    • Increase fiber intake through fruits, vegetables, and whole grains.<br>
+                    • Drink plenty of water and avoid processed foods.<br>
+                    • Stay physically active and establish a regular bowel routine.
+                </p>
+            </li>
+            <li>
+                <span class="disease" onclick="toggleModal('asthma-modal')" style="cursor: pointer;">Asthma</span>
+                <p class="remedy">
+                    • Avoid allergens and pollutants.<br>
+                    • Use prescribed inhalers as directed.<br>
+                    • Practice breathing exercises to strengthen lung capacity.
+                </p>
+            </li>
+            <li>
+                <span class="disease" onclick="toggleModal('allergies-modal')" style="cursor: pointer;">Allergies</span>
+                <p class="remedy">
+                    • Identify and avoid allergens (dust, pollen, food, etc.).<br>
+                    • Use antihistamines or decongestants as prescribed.<br>
+                    • Consider allergy shots (immunotherapy) for long-term relief.
+                </p>
+            </li>
+            <li>
+                <span class="disease" onclick="toggleModal('backpain-modal')" style="cursor: pointer;">Back Pain</span>
+                <p class="remedy">
+                    • Maintain good posture while sitting and sleeping.<br>
+                    • Do gentle stretching exercises regularly.<br>
+                    • Apply a heating pad or cold compress to relieve pain.
+                </p>
+            </li>
+            <li>
+                <span class="disease" onclick="toggleModal('anemia-modal')" style="cursor: pointer;">Anemia</span>
+                <p class="remedy">
+                    • Consume iron-rich foods like spinach, red meat, beans, and fortified cereals.<br>
+                    • Take iron supplements if prescribed by a doctor.<br>
+                    • Include Vitamin C-rich foods to enhance iron absorption.
+                </p>
+            </li>
+        </ul>
     </div>
-    <audio id="alarm-sound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+    <footer>
+        <p>&copy; 2024 Health Remedies Guide. All rights reserved.</p>
+    </footer>
+    <div id="cold-flu-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="toggleModal('cold-flu-modal')">&times;</span>
+            <h3>Cold and Flu Remedies</h3>
+            <div class="remedy">
+                <strong>Symptoms:</strong>
+                <ul>
+                    <li>Runny or stuffy nose</li>
+                    <li>Sore throat</li>
+                    <li>Cough</li>
+                    <li>Fever and body aches</li>
+                </ul>
+                <strong>Remedies:</strong>
+                <ul>
+                    <li>Stay hydrated and drink warm fluids like herbal teas</li>
+                    <li>Rest adequately to allow your body to recover</li>
+                    <li>Use saline nasal sprays to relieve nasal congestion</li>
+                    <li>Inhale steam with eucalyptus oil for sinus relief</li>
+                </ul>
+                <strong>Prevention:</strong>
+                <ul>
+                    <li>Wash hands frequently</li>
+                    <li>Maintain good hygiene</li>
+                    <li>Get adequate sleep</li>
+                    <li>Eat a balanced diet rich in vitamins</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="headache-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="toggleModal('headache-modal')">&times;</span>
+            <h3>Headache Remedies</h3>
+            <div class="remedy">
+                <strong>Types of Headaches:</strong>
+                <ul>
+                    <li>Tension headaches</li>
+                    <li>Migraines</li>
+                    <li>Cluster headaches</li>
+                </ul>
+                <strong>Remedies:</strong>
+                <ul>
+                    <li>Stay hydrated, take breaks from screens</li>
+                    <li>Practice relaxation techniques</li>
+                    <li>Apply cold or warm compresses</li>
+                    <li>Use over-the-counter medications if necessary</li>
+                </ul>
+                <strong>Prevention:</strong>
+                <ul>
+                    <li>Maintain regular sleep schedule</li>
+                    <li>Manage stress levels</li>
+                    <li>Avoid known triggers</li>
+                    <li>Practice good posture</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="acidity-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="toggleModal('acidity-modal')">&times;</span>
+            <h3>Acidity (Acid Reflux) Management</h3>
+            <div class="remedy">
+                <strong>Symptoms:</strong>
+                <ul>
+                    <li>Heartburn</li>
+                    <li>Chest pain</li>
+                    <li>Difficulty swallowing</li>
+                    <li>Regurgitation of food</li>
+                </ul>
+                <strong>Remedies:</strong>
+                <ul>
+                    <li>Avoid spicy, fatty, and acidic foods</li>
+                    <li>Eat smaller meals more frequently</li>
+                    <li>Don't lie down immediately after eating</li>
+                    <li>Drink warm water with honey</li>
+                    <li>Chew ginger or drink ginger tea</li>
+                </ul>
+                <strong>Prevention:</strong>
+                <ul>
+                    <li>Maintain a healthy weight</li>
+                    <li>Avoid trigger foods</li>
+                    <li>Don't eat close to bedtime</li>
+                    <li>Elevate head while sleeping</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="diabetes-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="toggleModal('diabetes-modal')">&times;</span>
+            <h3>Diabetes Management</h3>
+            <div class="remedy">
+                <strong>Types:</strong>
+                <ul>
+                    <li>Type 1 Diabetes</li>
+                    <li>Type 2 Diabetes</li>
+                    <li>Gestational Diabetes</li>
+                </ul>
+                <strong>Management Strategies:</strong>
+                <ul>
+                    <li>Monitor blood sugar regularly</li>
+                    <li>Follow a balanced, low-carb diet</li>
+                    <li>Exercise regularly</li>
+                    <li>Take prescribed medications</li>
+                    <li>Control portion sizes</li>
+                </ul>
+                <strong>Lifestyle Changes:</strong>
+                <ul>
+                    <li>Maintain healthy weight</li>
+                    <li>Stay physically active</li>
+                    <li>Get regular check-ups</li>
+                    <li>Monitor foot health</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="hypertension-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="toggleModal('hypertension-modal')">&times;</span>
+            <h3>Hypertension Management</h3>
+            <div class="remedy">
+                <strong>Risk Factors:</strong>
+                <ul>
+                    <li>Family history</li>
+                    <li>Age</li>
+                    <li>Obesity</li>
+                    <li>High sodium intake</li>
+                </ul>
+                <strong>Management:</strong>
+                <ul>
+                    <li>Regular blood pressure monitoring</li>
+                    <li>Reduce salt intake</li>
+                    <li>Maintain a balanced diet</li>
+                    <li>Manage stress with meditation or yoga</li>
+                    <li>Take prescribed medications as directed by a doctor</li>
+                </ul>
+                <strong>Prevention:</strong>
+                <ul>
+                    <li>Maintain a healthy weight</li>
+                    <li>Avoid high sodium foods</li>
+                    <li>Limit alcohol consumption</li>
+                    <li>Exercise regularly</li>
+                    <li>Manage stress levels</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="constipation-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="toggleModal('constipation-modal')">&times;</span>
+            <h3>Constipation Management</h3>
+            <div class="remedy">
+                <strong>Symptoms:</strong>
+                <ul>
+                    <li>Hard, dry stools</li>
+                    <li>Infrequent bowel movements</li>
+                    <li>Pain or discomfort during bowel movements</li>
+                </ul>
+                <strong>Remedies:</strong>
+                <ul>
+                    <li>Increase fiber intake</li>
+                    <li>Drink plenty of water</li>
+                    <li>Avoid processed foods</li>
+                    <li>Practice regular bowel movements</li>
+                    <li>Use over-the-counter medications if necessary</li>
+                </ul>
+                <strong>Prevention:</strong>
+                <ul>
+                    <li>Increase fiber intake</li>
+                    <li>Drink plenty of water</li>
+                    <li>Avoid processed foods</li>
+                    <li>Practice regular bowel movements</li>
+                    <li>Get adequate sleep</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="asthma-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="toggleModal('asthma-modal')">&times;</span>
+            <h3>Asthma Management</h3>
+            <div class="remedy">
+                <strong>Symptoms:</strong>
+                <ul>
+                    <li>Shortness of breath</li>
+                    <li>Wheezing</li>
+                    <li>Chest tightness</li>
+                    <li>Coughing</li>
+                </ul>
+                <strong>Remedies:</strong>
+                <ul>
+                    <li>Avoid allergens and pollutants</li>
+                    <li>Use prescribed inhalers as directed</li>
+                    <li>Practice breathing exercises</li>
+                    <li>Maintain a healthy weight</li>
+                    <li>Get adequate sleep</li>
+                </ul>
+                <strong>Prevention:</strong>
+                <ul>
+                    <li>Avoid allergens and pollutants</li>
+                    <li>Get adequate sleep</li>
+                    <li>Maintain a healthy weight</li>
+                    <li>Practice breathing exercises</li>
+                    <li>Get regular check-ups</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="allergies-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="toggleModal('allergies-modal')">&times;</span>
+            <h3>Allergies Management</h3>
+            <div class="remedy">
+                <strong>Symptoms:</strong>
+                <ul>
+                    <li>Itchy eyes, nose, or throat</li>
+                    <li>Runny nose</li>
+                    <li>Coughing</li>
+                    <li>Sneezing</li>
+                </ul>
+                <strong>Remedies:</strong>
+                <ul>
+                    <li>Identify and avoid allergens</li>
+                    <li>Use antihistamines or decongestants as prescribed</li>
+                    <li>Consider allergy shots (immunotherapy)</li>
+                    <li>Maintain a healthy weight</li>
+                    <li>Get adequate sleep</li>
+                </ul>
+                <strong>Prevention:</strong>
+                <ul>
+                    <li>Identify and avoid allergens</li>
+                    <li>Maintain a healthy weight</li>
+                    <li>Get adequate sleep</li>
+                    <li>Practice good hygiene</li>
+                    <li>Get regular check-ups</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="backpain-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="toggleModal('backpain-modal')">&times;</span>
+            <h3>Back Pain Management</h3>
+            <div class="remedy">
+                <strong>Symptoms:</strong>
+                <ul>
+                    <li>Pain in the lower back, buttocks, or thighs</li>
+                    <li>Limited mobility</li>
+                    <li>Muscle spasms</li>
+                </ul>
+                <strong>Remedies:</strong>
+                <ul>
+                    <li>Maintain good posture</li>
+                    <li>Do gentle stretching exercises</li>
+                    <li>Apply heat or cold therapy</li>
+                    <li>Use over-the-counter medications if necessary</li>
+                </ul>
+                <strong>Prevention:</strong>
+                <ul>
+                    <li>Maintain good posture</li>
+                    <li>Do gentle stretching exercises</li>
+                    <li>Apply heat or cold therapy</li>
+                    <li>Use over-the-counter medications if necessary</li>
+                    <li>Maintain a healthy weight</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="anemia-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="toggleModal('anemia-modal')">&times;</span>
+            <h3>Anemia Management</h3>
+            <div class="remedy">
+                <strong>Symptoms:</strong>
+                <ul>
+                    <li>Fatigue</li>
+                    <li>Pale skin</li>
+                    <li>Shortness of breath</li>
+                    <li>Dizziness</li>
+                </ul>
+                <strong>Remedies:</strong>
+                <ul>
+                    <li>Consume iron-rich foods</li>
+                    <li>Take iron supplements if prescribed</li>
+                    <li>Include Vitamin C-rich foods</li>
+                    <li>Practice good hygiene</li>
+                    <li>Get adequate sleep</li>
+                </ul>
+                <strong>Prevention:</strong>
+                <ul>
+                    <li>Consume iron-rich foods</li>
+                    <li>Take iron supplements if prescribed</li>
+                    <li>Include Vitamin C-rich foods</li>
+                    <li>Practice good hygiene</li>
+                    <li>Get adequate sleep</li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <script>
-        document.getElementById('medication-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+            }
+        }
 
-            // Get input values
-            const medicationName = document.getElementById('medication-name').value;
-            const dose = document.getElementById('dose').value;
-            const time = document.getElementById('time').value;
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
 
-            // Display reminder message
-            const reminderDisplay = document.getElementById('reminder-display');
-            reminderDisplay.textContent = `Reminder set for ${medicationName} (${dose}) at ${time}`;
-            reminderDisplay.style.display = 'block';
-
-            // Calculate time difference
-            const now = new Date();
-            const [hours, minutes] = time.split(':').map(Number);
-            const reminderTime = new Date();
-            reminderTime.setHours(hours, minutes, 0, 0);
-
-            const timeDifference = reminderTime - now;
-
-            if (timeDifference > 0) {
-                setTimeout(() => {
-                    const alarmSound = document.getElementById('alarm-sound');
-                    alarmSound.play();
-                    alert(`Time to take your ${medicationName} (${dose})!`);
-                }, timeDifference);
-            } else {
-                alert('The time entered is in the past. Please set a future time.');
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.getElementsByClassName('modal');
+                for (let modal of modals) {
+                    modal.style.display = 'none';
+                }
             }
         });
     </script>
